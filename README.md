@@ -164,13 +164,18 @@ The complete tracking platform have three components:
 
 * MLFlow Tracking Server
 * [PostgreSQL Database](https://www.postgresql.org): A popular open-source relational database, can be used to store the models' metadata
-* [MinIO](https://min.io): Open-source alternative of Amazon S3, used to store the artifacts of the models
+* [MinIO](https://min.io): Amazon S3-compatible Object Storage, used to store the artifacts of the models
 
-### Host PostgreSQL and MinIO
+### Start PostgreSQL and MinIO
 
-Run the services with [Docker Compose](https://docs.docker.com/compose/):
+With `docker-compose.yml` file, web can run the services with [Docker Compose](https://docs.docker.com/compose/):
 
 ```bash
+# Prepare local directories as bind-mount persistent volumes
+mkdir -p ./data/minio/mlflow
+mkdir -p ./data/postgres
+
+# Launch services
 docker-compose up -d
 ```
 
@@ -179,3 +184,47 @@ docker-compose up -d
 > We don't run MLFlow Tracking Server along with other components due to the lack of the Healthcheck mechanism. The MLFlow Tracking Server should be initialized after the Database created, so without healthchecking, we can't use `depends_on` keywork to assign the right order to run the services and causes the failure.
 
 Use `docker-compose ps` commands to verify if the services become stable.
+
+### Start MLFlow Tracking Server
+
+Build a MLFlow Docker Image, contains:
+
+* `psycopg2`: PostgreSQL Database Driver
+* `boto3`: AWS Python SDK
+
+Build with `docker build` commands with `Dockerfile` file:
+
+```bash
+docker build -t mlflow:v1.7.0 .
+```
+
+Then run as Docker Container:
+
+```bash
+docker run -it -d \
+  --network="mlflow_mlflow-net" \
+  -e MLFLOW_S3_ENDPOINT_URL=http://minio:9000 \
+  -e AWS_ACCESS_KEY_ID=minioadmin \
+  -e AWS_SECRET_ACCESS_KEY=minioadmin \
+  -p 5000:5000 \
+  --name mlflow \
+  mlflow:v1.7.0 \
+  server --host="0.0.0.0" \
+    --backend-store-uri="postgresql+psycopg2://mlflow:mlflow@postgres/mlflow" \
+    --default-artifact-root="s3://mlflow"
+```
+
+### Track with PostgreSQL Database and MinIO Object Storage
+
+`train_tracking_s3_psql.py` add some new features:
+
+* On line 22, set environment variables to redirect the S3 URL to out self-hosted MinIO object storage
+* On line 23 and line 24, set S3 credentials
+
+So simply execute the script:
+
+```python
+python train_tracking_s3_psql.py
+```
+
+Now, when we logging the results with MLFlow Tracking Server, the metadata are saved into PostgreSQL Database, and model artifacts are saved into MinIO object storage automatically.
