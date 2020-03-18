@@ -1,0 +1,51 @@
+version: '3.1'
+
+services:
+
+  postgres:
+    image: postgres:12.2
+    networks:
+      - mlflow-net
+    environment:
+      POSTGRES_USER: mlflow
+      POSTGRES_PASSWORD: mlflow
+      POSTGRES_DB: mlflow
+    user: "501:20"  # Replace the values of "id -u" and "id -g"
+    volumes:
+      - /etc/passwd:/etc/passwd:ro
+      - $PWD/data/postgres:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    networks:
+      - mlflow-net
+    # restart: always
+    depends_on: ["postgres"]
+    ports:
+      - 8080:8080
+
+  minio:
+    image: minio/minio:latest
+    networks:
+      - mlflow-net
+    volumes:
+      - $PWD/data/minio:/data
+    ports:
+      - 9000:9000
+    command: ["server", "/data"]
+
+  # mlflow:
+  #   image: mlflow:v1.7.0
+  #   depends_on: ["postgres", "minio"]
+  #   environment:
+  #     - MLFLOW_S3_ENDPOINT_URL=http://minio:9000
+  #     - AWS_ACCESS_KEY_ID=minioadmin
+  #     - AWS_SECRET_ACCESS_KEY=minioadmin
+  #   ports:
+  #     - 5000:5000
+  #   # [TODO] Minio
+  #   command: ["server", "--host", "0.0.0.0", "--backend-store-uri","postgresql+psycopg2://mlflow:mlflow@postgres/mlflow", "--default-artifact-root", "s3://mlflow"]
+
+networks:
+  net:
+    driver: bridge
