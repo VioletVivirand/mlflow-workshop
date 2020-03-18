@@ -228,3 +228,7 @@ python train_tracking_s3_psql.py
 ```
 
 Now, when we logging the results with MLFlow Tracking Server, the metadata are saved into PostgreSQL Database, and model artifacts are saved into MinIO object storage automatically.
+
+## One More Thing - Use H2O AutoML with MLFlow Tracking Server
+
+`H2OAutoML.ipynb` Illustates the step-by-step guide to perform an AutoML Training Job with MLFlow Tracking Server, enjoy it!
