@@ -6,7 +6,7 @@
 pip install mlflow scikit-learn pandas numpy scipy boto3
 ```
 
-## Chapter 1 - Save results locally
+## Chapter 1 - Track results locally
 
 The file `train.py` provides a training process by applying [Scikit-learn Elastic Net Model](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNet.html), and save the model's metadata and artifact locally.
 
@@ -104,3 +104,56 @@ headers = {
 r = requests.request("POST", url, headers=headers, data=payload)
 print(json.loads(r.text))
 ```
+
+## Chapter 2 - Set Remote Tracking Server
+
+The `train_tracking.py` add 2 features:
+
+1. Set remote Tracking Server, and save metadata and artifacts into remote environment's filesystem
+1. Set the name of experiment to separate different projects
+
+### Set remote Tracking Server
+
+In Python, we can set remote Tracking Server by using `mlflow.set_tracking_uri()` function, refers to line 30:
+
+```python
+mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI",
+                                  "http://127.0.0.1:5000"))
+```
+
+So set Tracking Server URI by assigning environment `MLFLOW_TRACKING_URI`:
+
+```bash
+export MLFLOW_TRACKING_URI=<URI>
+
+# Verify
+echo $MLFLOW_TRACKING_URI
+```
+
+And if the environment variable is unset, it will assign `http://127.0.0.1:5000` as Tracking Server URI.
+
+### Set the name of experiment
+
+In order to separate different projects, use `mlflow.set_experiment() function`, refers to line 32:
+
+```python
+mlflow.set_experiment("Elastic Net")
+```
+
+### Perform a Training Job
+
+Start a Tracking Server first:
+
+```bash
+mlflow server
+```
+
+Now we can visit the Tracking Server Web UI dashboard, it runs with no record found.
+
+Execute `train_tracking.py` to perform a training job:
+
+```bash
+python train_tracking.py
+```
+
+Then refresh the webpage, the training result shows up immediately.
