@@ -157,3 +157,25 @@ python train_tracking.py
 ```
 
 Then refresh the webpage, the training result shows up immediately.
+
+## Chapter 3 - Host MLFlow, PostgreSQL Database, MinIO Stack
+
+The complete tracking platform have three components:
+
+* MLFlow Tracking Server
+* [PostgreSQL Database](https://www.postgresql.org): A popular open-source relational database, can be used to store the models' metadata
+* [MinIO](https://min.io): Open-source alternative of Amazon S3, used to store the artifacts of the models
+
+### Host PostgreSQL and MinIO
+
+Run the services with [Docker Compose](https://docs.docker.com/compose/):
+
+```bash
+docker-compose up -d
+```
+
+> [NOTE]
+> 
+> We don't run MLFlow Tracking Server along with other components due to the lack of the Healthcheck mechanism. The MLFlow Tracking Server should be initialized after the Database created, so without healthchecking, we can't use `depends_on` keywork to assign the right order to run the services and causes the failure.
+
+Use `docker-compose ps` commands to verify if the services become stable.
