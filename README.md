@@ -50,7 +50,7 @@ Visit MLFlow Tracking Server's Web Dashboard UI at `http://127.0.0.1:5000`, try 
 Pick a local model to serve: Get the `run_id` by viewing the dashboard, then execute with CLI commands `mlflow models serve` :
 
 ```bash
-mlflow models serve -m runs:<run_id>/model --no-conda
+mlflow models serve -m runs:/<run_id>/model --no-conda
 ```
 
 The `--no-conda` option is recommended, so the Inference Server will serve with the dependencies with local resources rather than Anaconda.
