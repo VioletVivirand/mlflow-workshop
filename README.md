@@ -8,7 +8,7 @@ pip install mlflow scikit-learn pandas numpy scipy boto3
 
 ## Chapter 1 - Track results locally
 
-The file `train.py` provides a training process by applying [Scikit-learn Elastic Net Model](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNet.html), and save the model's metadata and artifact locally.
+The file [`train.py`](https://github.com/VioletVivirand/mlflow_workshop/blob/master/train.py) provides a training process by applying [Scikit-learn Elastic Net Model](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNet.html), and save the model's metadata and artifact locally.
 
 ### Execute a training job and save the result locally
 
@@ -107,14 +107,14 @@ print(json.loads(r.text))
 
 ## Chapter 2 - Set Remote Tracking Server
 
-The `train_tracking.py` add 2 features:
+The [`train_tracking.py`](https://github.com/VioletVivirand/mlflow_workshop/blob/master/train_tracking.py) add 2 features:
 
 1. Set remote Tracking Server, and save metadata and artifacts into remote environment's filesystem
 1. Set the name of experiment to separate different projects
 
 ### Set remote Tracking Server
 
-In Python, we can set remote Tracking Server by using `mlflow.set_tracking_uri()` function, refers to line 30:
+In Python, we can set remote Tracking Server by using `mlflow.set_tracking_uri()` function, refers to [line 30](https://github.com/VioletVivirand/mlflow_workshop/blob/b6e7d7745d2dd27be1e5b72329c8d9c1e778e3d9/train_tracking.py#L30):
 
 ```python
 mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI",
@@ -134,7 +134,7 @@ And if the environment variable is unset, it will assign `http://127.0.0.1:5000`
 
 ### Set the name of experiment
 
-In order to separate different projects, use `mlflow.set_experiment() function`, refers to line 32:
+In order to separate different projects, use `mlflow.set_experiment() function`, refers to [line 32](https://github.com/VioletVivirand/mlflow_workshop/blob/b6e7d7745d2dd27be1e5b72329c8d9c1e778e3d9/train_tracking.py#L34):
 
 ```python
 mlflow.set_experiment("Elastic Net")
@@ -168,7 +168,7 @@ The complete tracking platform have three components:
 
 ### Start PostgreSQL and MinIO
 
-With `docker-compose.yml` file, web can run the services with [Docker Compose](https://docs.docker.com/compose/):
+With [`docker-compose.yml`](https://github.com/VioletVivirand/mlflow_workshop/blob/master/docker-compose.yml) file, web can run the services with [Docker Compose](https://docs.docker.com/compose/):
 
 ```bash
 # Prepare local directories as bind-mount persistent volumes
@@ -216,10 +216,10 @@ docker run -it -d \
 
 ### Track with PostgreSQL Database and MinIO Object Storage
 
-`train_tracking_s3_psql.py` add some new features:
+[`train_tracking_s3_psql.py`](https://github.com/VioletVivirand/mlflow_workshop/blob/master/train_tracking_s3_psql.py) add some new features:
 
-* On line 22, set environment variables to redirect the S3 URL to out self-hosted MinIO object storage
-* On line 23 and line 24, set S3 credentials
+* On [line 22](https://github.com/VioletVivirand/mlflow_workshop/blob/b6e7d7745d2dd27be1e5b72329c8d9c1e778e3d9/train_tracking_s3_psql.py#L22), set environment variables to redirect the S3 URL to out self-hosted MinIO object storage
+* On [line 23](https://github.com/VioletVivirand/mlflow_workshop/blob/b6e7d7745d2dd27be1e5b72329c8d9c1e778e3d9/train_tracking_s3_psql.py#L23) and [line 24](https://github.com/VioletVivirand/mlflow_workshop/blob/b6e7d7745d2dd27be1e5b72329c8d9c1e778e3d9/train_tracking_s3_psql.py#L24), set S3 credentials
 
 So simply execute the script:
 
@@ -231,4 +231,4 @@ Now, when we logging the results with MLFlow Tracking Server, the metadata are s
 
 ## One More Thing - Use H2O AutoML with MLFlow Tracking Server
 
-`H2OAutoML.ipynb` Illustates the step-by-step guide to perform an AutoML Training Job with MLFlow Tracking Server, enjoy it!
+[`H2OAutoML.ipynb`](https://github.com/VioletVivirand/mlflow_workshop/blob/master/H2OAutoML.ipynb) Illustates the step-by-step guide to perform an AutoML Training Job with MLFlow Tracking Server, enjoy it!
