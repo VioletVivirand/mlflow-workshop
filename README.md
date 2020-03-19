@@ -192,7 +192,7 @@ Build a MLFlow Docker Image, contains:
 * `psycopg2`: PostgreSQL Database Driver
 * `boto3`: AWS Python SDK
 
-Build with `docker build` commands with `Dockerfile` file:
+Build with `docker build` commands with [`Dockerfile`](https://github.com/VioletVivirand/mlflow_workshop/blob/master/Dockerfile) file:
 
 ```bash
 docker build -t mlflow:v1.7.0 .
@@ -202,7 +202,7 @@ Then run as Docker Container:
 
 ```bash
 docker run -it -d \
-  --network="mlflow_mlflow-net" \
+  --network="mlflow_net" \
   -e MLFLOW_S3_ENDPOINT_URL=http://minio:9000 \
   -e AWS_ACCESS_KEY_ID=minioadmin \
   -e AWS_SECRET_ACCESS_KEY=minioadmin \
@@ -227,7 +227,7 @@ So simply execute the script:
 python train_tracking_s3_psql.py
 ```
 
-Now, when we logging the results with MLFlow Tracking Server, the metadata are saved into PostgreSQL Database, and model artifacts are saved into MinIO object storage automatically.
+Now, when we log the results with MLFlow Tracking Server, the metadata are saved into PostgreSQL Database, and model artifacts are saved into MinIO object storage automatically.
 
 ## One More Thing - Use H2O AutoML with MLFlow Tracking Server
 
