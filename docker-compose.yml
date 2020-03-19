@@ -5,7 +5,7 @@ services:
   postgres:
     image: postgres:12.2
     networks:
-      - mlflow-net
+      - net
     environment:
       POSTGRES_USER: mlflow
       POSTGRES_PASSWORD: mlflow
@@ -18,7 +18,7 @@ services:
   adminer:
     image: adminer
     networks:
-      - mlflow-net
+      - net
     # restart: always
     depends_on: ["postgres"]
     ports:
@@ -27,7 +27,7 @@ services:
   minio:
     image: minio/minio:latest
     networks:
-      - mlflow-net
+      - net
     volumes:
       - $PWD/data/minio:/data
     ports:
