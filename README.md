@@ -231,6 +231,22 @@ python train_tracking_s3_psql.py
 
 Now, when we log the results with MLFlow Tracking Server, the metadata are saved into PostgreSQL Database, and model artifacts are saved into MinIO object storage automatically.
 
+### Server Model with Object Storage
+
+Visit MLFlow Tracking Server and view the specific model detail page to get the URI of the model, the format should be like `s3://bucket/<experiment_id>/<run_id>/artifacts/model`. Then export environment variables and server the model with commands:
+
+```bash
+export MLFLOW_S3_ENDPOINT_URL=http://127.0.0.1:9000
+export AWS_ACCESS_KEY_ID=minioadmin
+export AWS_SECRET_ACCESS_KEY=minioadmin
+
+mlflow models serve -m s3://mlflow/1/8975836dbbe74b449cfbff3a01738e95/artifacts/model --no-conda
+```
+
+> [NOTE]
+>
+> If the Tracking Server is still running and port `5000` is occupied, try to add `-p` option and assign a different port number
+
 ## One More Thing - Use H2O AutoML with MLFlow Tracking Server
 
 [`H2OAutoML.ipynb`](https://github.com/VioletVivirand/mlflow_workshop/blob/master/H2OAutoML.ipynb) Illustates the step-by-step guide to perform an AutoML Training Job with MLFlow Tracking Server, enjoy it!
