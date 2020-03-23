@@ -2,8 +2,10 @@
 
 ## Dependencies
 
+The Scripts contained in this repository were tested with MLFlow version `1.7.0`:
+
 ```bash
-pip install mlflow scikit-learn pandas numpy scipy boto3
+pip install mlflow==1.7.0 scikit-learn pandas numpy scipy boto3
 ```
 
 ## Chapter 1 - Track results locally
@@ -56,7 +58,7 @@ mlflow models serve -m runs:/<run_id>/model --no-conda
 The `--no-conda` option is recommended, so the Inference Server will serve with the dependencies with local resources rather than Anaconda.
 
 > [NOTE]
-> 
+>
 > If the Tracking Server is still running and port `5000` is occupied, try to add `-p` option and assign a different port number
 
 #### Method 2: Build a Docker Image with specific model and Serve the Inference Server as Docker Container
@@ -87,7 +89,7 @@ curl --location --request POST 'http://127.0.0.1:5005/invocations' \
   --header 'format: pandas-split' \
   --data-raw '{"columns":["alcohol","chlorides","citric acid","density","fixed acidity","free sulfur dioxide","pH","residual sugar","sulphates","total sulfur dioxide","volatile acidity"],"data":[[12.8,0.029,0.48,0.98,6.2,29,3.33,1.2,0.39,75,0.66],[12.8,0.029,0.48,0.98,6.2,29,3.33,1.2,0.39,75,0.66]]}'
 ```
-  
+
 #### Use Python
 
 ```python
@@ -180,7 +182,7 @@ docker-compose up -d
 ```
 
 > [NOTE]
-> 
+>
 > We don't run MLFlow Tracking Server along with other components due to the lack of the Healthcheck mechanism. The MLFlow Tracking Server should be initialized after the Database created, so without healthchecking, we can't use `depends_on` keywork to assign the right order to run the services and causes the failure.
 
 Use `docker-compose ps` commands to verify if the services become stable.
