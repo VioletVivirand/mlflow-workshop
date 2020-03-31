@@ -231,7 +231,7 @@ python train_tracking_s3_psql.py
 
 Now, when we log the results with MLFlow Tracking Server, the metadata are saved into PostgreSQL Database, and model artifacts are saved into MinIO object storage automatically.
 
-### Server Model with Object Storage
+### Serve Model with Object Storage
 
 Visit MLFlow Tracking Server and view the specific model detail page to get the URI of the model, the format should be like `s3://bucket/<experiment_id>/<run_id>/artifacts/model`. Then export environment variables and server the model with commands:
 
