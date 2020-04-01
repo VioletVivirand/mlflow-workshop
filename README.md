@@ -242,7 +242,7 @@ export MLFLOW_S3_ENDPOINT_URL=http://127.0.0.1:9000
 export AWS_ACCESS_KEY_ID=minioadmin
 export AWS_SECRET_ACCESS_KEY=minioadmin
 
-mlflow models serve -m s3://mlflow/1/8975836dbbe74b449cfbff3a01738e95/artifacts/model --no-conda
+mlflow models serve -m s3://mlflow/<experiment_id>/<run_id>/artifacts/model --no-conda
 ```
 
 > [NOTE]
