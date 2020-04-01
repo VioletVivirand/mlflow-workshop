@@ -160,6 +160,8 @@ python train_tracking.py
 
 Then refresh the webpage, the training result shows up immediately.
 
+> [NOTE] The artifact may not be uploaded (but no error returns from Tracking Server) for unknown reason. Try the method in Chapter 3.
+
 ## Chapter 3 - Host MLFlow, PostgreSQL Database, MinIO Stack
 
 The complete tracking platform have three components:
