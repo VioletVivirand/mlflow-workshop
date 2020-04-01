@@ -27,7 +27,7 @@ def eval_metrics(actual, pred):
 
 if __name__ == "__main__":
     mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI",
-                                      "http://10.153.196.112:65000"))
+                                      "http://127.0.0.1:5000"))
     mlflow.set_experiment("Elastic Net")
 
     warnings.filterwarnings("ignore")
