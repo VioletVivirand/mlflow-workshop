@@ -9,7 +9,7 @@ verify_ssl = true
 pandas = "*"
 numpy = "*"
 scikit-learn = "*"
-mlflow = "==1.7.2"
+mlflow = "==1.23.1"
 boto3 = "*"
 
 [requires]
